@@ -1,7 +1,7 @@
-//import 'package:firebase_database/firebase_database.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:myapp/firebase_options.dart';
 
 void main() async {
@@ -13,8 +13,10 @@ void main() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  final contactController =TextEditingController();
+  final sendController =TextEditingController();
   final literController =TextEditingController();
+
+
   
 
   @override
@@ -24,7 +26,7 @@ class MyApp extends StatelessWidget {
       home:Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.cyan[300],
-            title: const Text('Fuckin FLutter '),
+            title: const Text('Fuel Pump System'),
           ),
 
           body: Center(
@@ -32,7 +34,7 @@ class MyApp extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                             TextFormField(
-                              controller: contactController,
+                              controller: sendController,
                               decoration: const InputDecoration(
                                 hintText: 'Enter your contact number',
                               ),
@@ -44,14 +46,24 @@ class MyApp extends StatelessWidget {
                               ),
                             ),
                   const SizedBox(height: 20), // Add some space between the TextField and the Button
-                  ElevatedButton(
+                  ElevatedButton (
                     onPressed: () {
                       // Add the desired functionality when the button is pressed
-                      CollectionReference collRef= FirebaseFirestore.instance.collection('info');
+                      
+                        FirebaseDatabase.instance.ref().child("info").child(sendController.text).set(int.parse(literController.text));
+                      
+                      /*CollectionReference collRef= FirebaseFirestore.instance.collection('info');
                       collRef.add({
-                        'contact': contactController.text,
+                        'contact': sendController.text,
                         'liter': literController.text
-                      });
+                      });*/
+                      /*
+                      String message = "This is a test message!";
+                      List<String> recipents = ["1234567890", "5556787676"];
+
+                      _sendSMS(message, recipents);
+                    */
+
                     },
                     child: const Text('Submit'),
                   ),
@@ -63,3 +75,10 @@ class MyApp extends StatelessWidget {
       );
   }
 }
+/*
+void _sendSMS(String message, List<String> recipents) async {
+ String _result = await sendSMS(message: message, recipients: recipents)
+        .catchError((onError) {
+      print(onError);
+    });
+print*/
